@@ -1,0 +1,7 @@
+{
+  "name": "GestorDeCitas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
