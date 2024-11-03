@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>¿Borrar citas al inicio?</ion-label>
+    <ion-toggle [(ngModel)]="borrarCitas"></ion-toggle>
+  </ion-item>
+  <ion-button (click)="guardarConfiguracion()">Guardar Configuración</ion-button>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión de Citas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formularioCita" (ngSubmit)="agregarCita()">
+    <ion-item>
+      <ion-label position="floating">Frase</ion-label>
+      <ion-input formControlName="frase"></ion-input>
+    </ion-item>
+    <div *ngIf="formularioCita.controls['frase']?.invalid && formularioCita.controls['frase']?.touched">
+      <small *ngIf="formularioCita.controls['frase']?.errors?.['required']">La frase es obligatoria.</small>
+      <small *ngIf="formularioCita.controls['frase']?.errors?.['minlength']">Debe tener al menos 5 caracteres.</small>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Autor</ion-label>
+      <ion-input formControlName="autor"></ion-input>
+    </ion-item>
+    <div *ngIf="formularioCita.controls['autor']?.invalid && formularioCita.controls['autor']?.touched">
+      <small *ngIf="formularioCita.controls['autor']?.errors?.['required']">El autor es obligatorio.</small>
+      <small *ngIf="formularioCita.controls['autor']?.errors?.['minlength']">Debe tener al menos 2 caracteres.</small>
+    </div>
+
+    <ion-button type="submit" [disabled]="formularioCita.invalid">Agregar Cita</ion-button>
+  </form>
+
+  <!-- Mensaje de éxito -->
+  <div *ngIf="mensajeExito" class="mensaje-exito">
+    <p>{{ mensajeExito }}</p>
+  </div>
+</ion-content>

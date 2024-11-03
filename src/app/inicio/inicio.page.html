@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cita Aleatoria</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Mostrar una cita aleatoria -->
+  <div *ngIf="cita">
+    <h2>{{ cita.frase }}</h2>
+    <p>- {{ cita.autor }}</p>
+  </div>
+
+  <!-- Botón para cargar otra cita aleatoria -->
+  <ion-button expand="full" (click)="mostrarCitaAleatoria()">Mostrar otra cita</ion-button>
+
+  <!-- Botón para redirigir a la gestión de citas -->
+  <ion-button expand="full" routerLink="/gestion-de-citas">Ir a Gestión de Citas</ion-button>
+</ion-content>
