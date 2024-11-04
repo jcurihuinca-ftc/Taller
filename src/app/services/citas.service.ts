@@ -50,6 +50,8 @@ export class CitasService {
       }
       await this.dbConnection.run('INSERT INTO citas (frase, autor) VALUES (?, ?)', [frase, autor]);
       console.log('Cita agregada correctamente.');
+      const result = await this.dbConnection.query('SELECT * FROM citas');
+      console.log(result);
     } catch (error) {
       console.error('Error al agregar la cita:', error);
       throw error;

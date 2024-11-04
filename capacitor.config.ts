@@ -4,6 +4,7 @@ const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'GestorDeCitas',
   webDir: 'www',
+  bundledWebRuntime: false,
   server: {
     androidScheme: 'https'
   },

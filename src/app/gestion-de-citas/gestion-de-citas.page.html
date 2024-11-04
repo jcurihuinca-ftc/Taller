@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-button expand="full" routerLink="/inicio">volver</ion-button>
   <form [formGroup]="formularioCita" (ngSubmit)="agregarCita()">
     <ion-item>
       <ion-label position="floating">Frase</ion-label>
@@ -27,8 +28,12 @@
     <ion-button type="submit" [disabled]="formularioCita.invalid">Agregar Cita</ion-button>
   </form>
 
-  <!-- Mensaje de éxito -->
+
   <div *ngIf="mensajeExito" class="mensaje-exito">
     <p>{{ mensajeExito }}</p>
+  </div>
+
+  <div *ngIf="citas">
+    <p>{{ citas | json }}</p>
   </div>
 </ion-content>

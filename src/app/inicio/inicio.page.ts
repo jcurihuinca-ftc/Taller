@@ -12,10 +12,10 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./inicio.page.scss'],
   standalone: true,
   imports: [
-    IonContent, 
-    IonTitle, 
-    IonToolbar, 
-    IonButton, 
+    IonContent,
+    IonTitle,
+    IonToolbar,
+    IonButton,
     IonHeader,
     CommonModule, RouterModule
   ]
@@ -25,8 +25,12 @@ export class InicioPage implements OnInit {
 
   constructor(private citasService: CitasService) {}
 
-  ngOnInit() {
-    this.mostrarCitaAleatoria();
+  async ngOnInit() {
+    console.log('ngOnInit Iniciado');
+
+    if (this.citasService.isConnectionInitialized()) {
+      await this.mostrarCitaAleatoria();
+    }
   }
 
   async mostrarCitaAleatoria() {

@@ -9,7 +9,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "copysqlwasm": "copyfiles -u 3 node_modules/sql.js/dist/sql-wasm.wasm src/assets"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +26,7 @@
     "@capacitor/app": "6.0.1",
     "@capacitor/core": "6.1.2",
     "@capacitor/device": "^6.0.1",
+    "@capacitor/filesystem": "^6.0.1",
     "@capacitor/haptics": "6.0.1",
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/preferences": "^6.0.2",
@@ -51,6 +53,7 @@
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",

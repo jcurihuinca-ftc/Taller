@@ -5,6 +5,8 @@ import { Preferences } from '@capacitor/preferences';
 import { HttpClient } from '@angular/common/http';
 import { Device } from '@capacitor/device';
 
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -109,6 +111,34 @@ export class SqliteService {
     } else {
       console.error('La base de datos no está lista.');
       return null;
+    }
+  }
+
+  async persistDatabase() {
+    try {
+      if (this.dbConnection) {
+        const exportResult = await this.dbConnection.exportToJson('full');
+        if (exportResult.export) {
+          console.log('Datos exportados:', exportResult.export);
+          const jsonData = JSON.stringify(exportResult.export, null, 2);
+          console.log ('Intentando guardar datos en DB db.json')
+          const result = await Filesystem.writeFile({
+            path: 'db/db.json',
+            data: jsonData,
+            directory: Directory.Documents,
+            encoding: Encoding.UTF8,
+          });
+          console.log('Archivo guardado en:', result.uri);
+
+          console.log('Datos persistentes guardados en db.json correctamente.');
+        } else {
+          console.error('Error al exportar los datos de la base de datos.');
+        }
+      } else {
+        throw new Error('La conexión a la base de datos no está inicializada.');
+      }
+    } catch (error) {
+      console.error('Error al hacer persistente la base de datos:', error);
     }
   }
 }

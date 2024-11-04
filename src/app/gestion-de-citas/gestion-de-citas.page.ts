@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CitasService } from '../services/citas.service';
-import { IonicModule } from '@ionic/angular'; 
+import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {RouterModule} from "@angular/router";
+
+import { SqliteService } from '../services/sqlite.service';
 
 @Component({
   selector: 'app-gestion-de-citas',
@@ -11,19 +14,25 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./gestion-de-citas.page.scss'],
   standalone: true,
   imports: [
-    IonicModule, 
+    IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ]
 })
+
 export class GestionDeCitasPage implements OnInit {
   formularioCita: FormGroup;
   citas: { frase: string; autor: string }[] = [];
   mensajeExito: string = '';
   mensajeError: string = '';
 
-  constructor(private fb: FormBuilder, private citasService: CitasService) {
+  constructor(
+    private fb: FormBuilder,
+    private citasService: CitasService,
+    private sqliteService: SqliteService
+  ){
     this.formularioCita = this.fb.group({
       frase: ['', [Validators.required, Validators.minLength(5)]],
       autor: ['', [Validators.required, Validators.minLength(2)]],
@@ -42,7 +51,7 @@ export class GestionDeCitasPage implements OnInit {
       console.error('Error al inicializar o cargar citas:', errorMessage);
     }
   }
-  
+
   async agregarCita() {
     try {
       if (!this.formularioCita.valid) {
@@ -50,7 +59,7 @@ export class GestionDeCitasPage implements OnInit {
         return;
       }
       const { frase, autor } = this.formularioCita.value;
-  
+
       if (!this.citasService.isConnectionInitialized()) {
         console.error('La conexión a la base de datos no está inicializada');
         this.mensajeError = 'Error: No se pudo conectar a la base de datos. Intente más tarde.';
@@ -61,13 +70,15 @@ export class GestionDeCitasPage implements OnInit {
       }
       await this.citasService.agregarCita(frase, autor);
       this.citas = await this.citasService.obtenerTodasCitas();
-  
+
+      await this.sqliteService.persistDatabase();
+
       this.formularioCita.reset();
       this.mensajeExito = 'La cita se ha guardado correctamente';
       setTimeout(() => {
         this.mensajeExito = '';
       }, 3000);
-  
+
     } catch (error) {
       console.error('Error al agregar la cita:', error);
       this.mensajeError = 'Ocurrió un error al guardar la cita. Intente nuevamente.';
@@ -76,7 +87,7 @@ export class GestionDeCitasPage implements OnInit {
       }, 5000);
     }
   }
-  
+
   async eliminarCita(id: number) {
     await this.citasService.eliminarCita(id);
     this.citas = await this.citasService.obtenerTodasCitas();
